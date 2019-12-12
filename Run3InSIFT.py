@@ -134,7 +134,7 @@ print(X.shape)
 #%%
 from sklearn.cluster import MiniBatchKMeans,KMeans
 
-cluster = MiniBatchKMeans(n_clusters=500, batch_size=10)
+cluster = MiniBatchKMeans(n_clusters=500, batch_size=50)
 # cluster = KMeans(n_clusters=500,random_state= 54, max_iter= 3000,n_jobs = 2,n_init = 2)
 cluster.fit(X)
 from sklearn.externals import joblib
@@ -175,28 +175,26 @@ clf = OneVsRestClassifier(SVC(kernel='linear')).fit(image_presentation_train, y_
 #%%
 clf.score(image_presentation_test, y_test)
 
-
 #%%
 print(X_train.shape)
 print(clf.score(image_presentation_test, y_test))
 
 
-
-# %%
-from sklearn.externals import joblib
-from sklearn.cluster import MiniBatchKMeans,KMeans
-path = os.path.abspath('.')
-SiftImage=load_test(r"./testing")
-TestingSiftImageSave ,TestingSiftImage = load_test_image(SiftImage,path)
-print(2)
-
-GetSiftImage , SiftHistoram = get_image_presentation(TestingSiftImage,km_model)
-print(3)
-std=preprocessing.StandardScaler()
-GetSiftImage = std.fit_transform(GetSiftImage)
-label_test=clf.predict(GetSiftImage)
-print(4)
-create_txt(label_test,path,SiftImage)
+# # %%
+# from sklearn.externals import joblib
+# from sklearn.cluster import MiniBatchKMeans,KMeans
+# path = os.path.abspath('.')
+# SiftImage=load_test(r"./testing")
+# TestingSiftImageSave ,TestingSiftImage = load_test_image(SiftImage,path)
+# print(2)
+#
+# GetSiftImage , SiftHistoram = get_image_presentation(TestingSiftImage,km_model)
+# print(3)
+# std=preprocessing.StandardScaler()
+# GetSiftImage = std.fit_transform(GetSiftImage)
+# label_test=clf.predict(GetSiftImage)
+# print(4)
+# create_txt(label_test,path,SiftImage)
 
 
 
