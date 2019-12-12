@@ -170,11 +170,10 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.naive_bayes import GaussianNB
 # clf = OneVsRestClassifier(LogisticRegression()).fit(image_presentation_train, y_train)
-clf = OneVsRestClassifier(SVC(kernel='linear')).fit(image_presentation_train, y_train)
+clf = OneVsRestClassifier(SVC()).fit(image_presentation_train, y_train)
 # clf = GaussianNB().fit(image_presentation_train,y_train)
 #%%
 clf.score(image_presentation_test, y_test)
-
 #%%
 print(X_train.shape)
 print(clf.score(image_presentation_test, y_test))
