@@ -13,72 +13,17 @@ def cv_show(name, image):
     cv2.destroyAllWindows()
 
 
-def cosine_disntance(vec1, vec2):
-    return np.dot(vec1, vec2)/ (np.linalg.norm(vec1) * np.linalg.norm(vec2))
-
 
 
 def gen_sift_features(gray, step_size):
     gray = cv2.pyrDown(gray)
+    print(gray.shape)
     dense = cv2.xfeatures2d.SIFT_create(103)
     kp = [cv2.KeyPoint(x, y, step_size) for y in range(0, gray.shape[0], step_size) for x in range(0, gray.shape[1], step_size)]
     kp, desc = dense.compute(gray, kp)
     return kp, desc
 
 
-
-def create_txt(label_test,path,file_test):
-    
-    dict = {'bedroom': 1, 'coast': 2, 'forest': 3, 'highway': 4, 'industrial': 5, 'insidecity': 6,
-            'kitchen': 7, 'livingroom': 8, 'mountain': 9, 'office': 10, 'opencountry': 11, 'store': 12,
-            'street': 13, 'suburb': 14, 'tallbuilding': 15}
-
-    results=[]
-    f=open(path+'/test_result_SitfandBayes.txt','w')
-    for i in range(len(file_test)):
-        results.append(file_test[i]+" "+list(dict.keys())[list(dict.values()).index(label_test[i])])
-        f.write(file_test[i]+" "+list(dict.keys())[list(dict.values()).index(label_test[i])]+'\n')
-
-
-def show_histogram(histogram):
-    memo = []
-    num = []
-    for label in histogram:
-        if label not in memo:
-            memo.append(label)
-            num.append(np.sum(histogram == label))
-        else:
-            continue
-    # import matplotlib.pyplot as plt
-    # plt.hist(x=num,bins=len(num))
-    # plt.show()
-    return np.array(num), np.array(memo)
-
-
-def load_test(path):
-    file_test=[]
-    for filename in os.listdir(path):              #listdir的参数是文件夹的路径
-        if filename=='.DS_Store':     #防止读取mac文件下的.ds_store文件
-            continue
-        file_test.append(filename)
-    file_test.sort(key=lambda x:int(x[:-4]))
-    return file_test
-
-def load_test_image(file_test,path):    #测试集
-    
-    N=len(file_test)
-    # set dimension of each picture
-
-    # Initialization
-    dense_sampling_image_total = np.zeros((1,128))
-    dense_sampling_images = []
-    #
-    for i in range(len(file_test)):
-        img = cv2.imread(os.path.join(path,'testing/'+file_test[i]), cv2.IMREAD_GRAYSCALE)
-        kp, desc = gen_sift_features(img, 4)                                  #每张图片的数组 e.g. 2000*128
-        dense_sampling_image_total = np.vstack((dense_sampling_image_total,desc))
-        dense_sampling_images.append(desc)
-    return dense_sampling_image_total[1:,:], dense_sampling_images
 
 
 def get_dense_sampling_images(path, dim=8):
